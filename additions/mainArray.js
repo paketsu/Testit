@@ -3,25 +3,22 @@ const getRandomNumber = (min, max) => {
 }
 
 const addition = (accumulator, currentValue) => accumulator + currentValue;
+let numbers = [];
+let result = 0;
 
 const createCalculation = (amountOfNumbers, operator, maxResult) => {
-    let numbers = [];
-    let result = 0;
-    const recreate = (removeNumber) => {
-        if(removeNumber) {
-            numbers.pop();
-        }
+    if (numbers.length < amountOfNumbers) {
+        numbers.push(getRandomNumber(0,10));
         createCalculation(amountOfNumbers, operator, maxResult);
-    }
-    while (numbers.length < amountOfNumbers) {
-        let newNumber = getRandomNumber(0,10);
-        numbers.push(newNumber);
-        result = numbers.reduce(operator);
-    }
-    numbers.length !== amountOfNumbers ? recreate() :
-        result > maxResult ? recreate(true) 
-        : console.log(numbers.toString());
+    } else if (maxResult < numbers.reduce(addition)) {
+        numbers.pop();
+        createCalculation(amountOfNumbers, operator, maxResult);
+    } else {
+        result = numbers.reduce(addition);
+        console.log(numbers.toString());
         console.log(result);
+        return;
+    }
 }
 
 // Kutsutaan funktiota ja syötetään siihen parametrit:
